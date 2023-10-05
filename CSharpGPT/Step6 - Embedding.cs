@@ -46,11 +46,14 @@ while (true)
 	completionOptions.Messages.Add(userMsg);
 
 	// get relevant sessions, if any
-	var searchResult = await memory.SearchAsync(userInput, limit: 2);
-	var sessionText = String.Join("\n", searchResult.Results.SelectMany(x => x.Partitions).Select(x => x.Text));
+	var searchResult = await memory.SearchAsync(userInput);
+	var orderedPartitions = searchResult.Results.SelectMany(x => x.Partitions).Distinct().OrderBy(p => p.Relevance);
+	var top5Partitions = orderedPartitions.Take(5).Select(x => x.Text);
+
+	var hint = String.Join("\n", top5Partitions);
 	
-	Console.WriteLine($"Relevant data: {sessionText}");
-	completionOptions.Messages.Add(new ChatMessage(ChatRole.System, "search results: " + sessionText));
+	Console.WriteLine($"Relevant data: {hint}");
+	completionOptions.Messages.Add(new ChatMessage(ChatRole.System, "search results: " + hint));
 
 	result = openAIClient.GetChatCompletions("chatgptplayground", completionOptions);
 	firstChoice = result.Value.Choices.FirstOrDefault();
