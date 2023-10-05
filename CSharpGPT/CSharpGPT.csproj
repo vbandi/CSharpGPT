@@ -10,7 +10,33 @@
   <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.8" />
     <PackageReference Include="Microsoft.SemanticMemory.Client" Version="0.3.231002.2-preview" />
+    <PackageReference Include="Microsoft.SemanticMemory.Core" Version="0.3.231002.2-preview" />
     <PackageReference Include="System.Speech" Version="8.0.0-rc.1.23419.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Sessions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Sessions\Azur Stack HCI Architctur Building a Robust Mission-Critical Hybrid Infrastructur.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sessions\ChatGPT to C-hatGPT_ Why Let Pythonistas Have All the Fun.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sessions\From On-Premises to Azure Crafting a Hybrid PowerShell Scripting Environment.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sessions\Just apply the basics in Entra ID Azure AD.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sessions\Mr Kruge and the Data Factory.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sessions\Ten things you need to do to build rock solid Azure tenant.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

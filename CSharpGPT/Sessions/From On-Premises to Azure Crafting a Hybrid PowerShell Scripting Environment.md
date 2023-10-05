@@ -1,0 +1,5 @@
+# From On-Premises to Azure: Crafting a Hybrid PowerShell Scripting Environment
+## 10:25 - 11:10 | Speaker: Aleksandar Nikolic
+Join us for a highly practical session that will demonstrate how you can modernize your PowerShell scripting environment using the power of Azure. We will showcase the effectiveness of Azure Arc-enabled servers, Azure Automation, hybrid workers, Azure Monitor, advanced authentication methods, and secure stores in optimizing operational efficiency, scalability, and security. This session will heavily rely on interactive demos, allowing you to witness these services in action and gain practical insights that you can readily implement in your own environment. Say goodbye to outdated on-premises jumpbox servers as we unveil the secrets to creating a robust and secure scripting environment using Azure. Don't miss this opportunity to enhance your PowerShell scripting skills!
+
+ | Speaker: Aleksandar Nikolic
