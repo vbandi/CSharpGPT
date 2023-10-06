@@ -12,18 +12,26 @@ var openAIClient = new OpenAIClient(new Uri(endpoint), credential, options);
 
 var memory = new MemoryClientBuilder()
 	.WithOpenAIDefaults(Environment.GetEnvironmentVariable("OPENAI_API_KEY"))
-	.Build();
+	.BuildServerlessClient();
 
-var currentDirectory = Directory.GetCurrentDirectory();
+if (false)
+{
+	var currentDirectory = Directory.GetCurrentDirectory();
 
 // add all files in /Sessions
-var files = Directory.GetFiles("Sessions").Select(x => Path.Combine(currentDirectory, x));
+	var files = Directory.GetFiles("Sessions").Select(x => Path.Combine(currentDirectory, x));
+	Dictionary<string, string> sessions = new();
 
-foreach (var file in files)
-{
-	Console.WriteLine($"Processing file {file}");
-	await memory.ImportTextAsync(File.ReadAllText(file), Guid.NewGuid().ToString());
+	foreach (var file in files)
+	{
+		Console.WriteLine($"Processing file {file}");
+		var fileKey = Path.GetFileNameWithoutExtension(file);
+		var txt = File.ReadAllText(file);
+		await memory.ImportTextAsync(txt, fileKey);
+		sessions[fileKey] = txt;
+	}
 }
+
 
 Console.WriteLine("Processing done. Ask away");
 
@@ -47,13 +55,18 @@ while (true)
 
 	// get relevant sessions, if any
 	var searchResult = await memory.SearchAsync(userInput);
-	var orderedPartitions = searchResult.Results.SelectMany(x => x.Partitions).Distinct().OrderBy(p => p.Relevance);
-	var top5Partitions = orderedPartitions.Take(5).Select(x => x.Text);
+	//var orderedPartitions = searchResult.Results.SelectMany(x => x.Partitions).Distinct().OrderByDescending(p => p.Relevance);
+	//var topPartitions = orderedPartitions.Take(2).Select(x => x.Text);
+	//var hint = String.Join("\n", topPartitions);
 
-	var hint = String.Join("\n", top5Partitions);
+	var orderedLinks = searchResult.Results.OrderByDescending(c => c.Partitions.Max(p => p.Relevance))
+		.Select(c => c.Link).Distinct();
+
+	//var hint = String.Join("\n\n", orderedLinks.Select(l => sessions[l]));
 	
-	Console.WriteLine($"Relevant data: {hint}");
-	completionOptions.Messages.Add(new ChatMessage(ChatRole.System, "search results: " + hint));
+	//Console.WriteLine($"Search results: {hint}");
+	//completionOptions.Messages.Add(new ChatMessage(ChatRole.System,
+	//	$"These sessions may be relevant to the user's query.: \n{hint}\n\n"));
 
 	result = openAIClient.GetChatCompletions("chatgptplayground", completionOptions);
 	firstChoice = result.Value.Choices.FirstOrDefault();
