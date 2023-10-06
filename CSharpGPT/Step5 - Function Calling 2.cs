@@ -5,7 +5,7 @@
 //using Azure.AI.OpenAI;
 //using OpenAI.Utilities.FunctionCalling;
 
-//var options = new OpenAIClientOptions(OpenAIClientOptions.ServiceVersion.V2023_09_01_Preview); 
+//var options = new OpenAIClientOptions(OpenAIClientOptions.ServiceVersion.V2023_09_01_Preview);
 
 //var key = Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY");
 //var credential = new AzureKeyCredential(key);
@@ -18,7 +18,7 @@
 //completionOptions.Messages.Add(new(ChatRole.System, "You are an aggressive AI assistant at the Azure Saturday Netherlands conference. Don't use profanities though."));
 
 //var calculator = new Calculator();
-//completionOptions.Functions = FunctionCallingHelper.GetFunctionDefinitions(calculator);
+//completionOptions.Functions = FunctionCallingHelper.GetFunctionDefinitions<Calculator>();
 
 //Console.ForegroundColor = ConsoleColor.Yellow;
 //completionOptions.Messages.Add(new(ChatRole.User, Console.ReadLine()));
@@ -46,10 +46,11 @@
 
 //		var calcResult = FunctionCallingHelper.CallFunction<float>(firstChoice.Message.FunctionCall, calculator);
 //		Console.WriteLine($" = {calcResult}");
-//		firstChoice.Message.Content = calcResult.ToString(CultureInfo.InvariantCulture);
-//		completionOptions.Messages.Add(firstChoice.Message);
 
-		
+//		var functionMessage = new ChatMessage(ChatRole.Function, calcResult.ToString());
+//		functionMessage.Name = firstChoice.Message.FunctionCall.Name;
+
+//		completionOptions.Messages.Add(functionMessage);
 //	}
 //}
 
