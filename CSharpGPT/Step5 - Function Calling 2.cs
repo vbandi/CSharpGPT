@@ -15,6 +15,7 @@ var endpoint = Environment.GetEnvironmentVariable("AZURE_OPENAI_API_BASE");
 var openAIClient = new OpenAIClient(new Uri(endpoint), credential, options);
 
 ChatCompletionsOptions completionOptions = new();
+completionOptions.Temperature = 0f;
 completionOptions.Messages.Add(new(ChatRole.System, "You are an aggressive AI assistant at the Azure Saturday Netherlands conference. Don't use profanities though."));
 
 var calculator = new Calculator();
